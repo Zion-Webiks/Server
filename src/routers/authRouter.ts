@@ -1,7 +1,10 @@
 import { Router } from "express"
-import { login, logout, register } from "../controllers/authController"
+import { login, logout, register, tokenCheck } from "../controllers/authController"
+import verifyUser from "../middleware/verifyUser"
 
 const router = Router()
+
+router.get("/",verifyUser, tokenCheck)
 
 router.post("/register", register)
 
