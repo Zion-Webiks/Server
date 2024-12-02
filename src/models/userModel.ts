@@ -21,12 +21,10 @@ const userSchema = new Schema<IUser>({
   },
   phone: {
     type: String,
-    unique: true,
     required: false 
   },
   address: {
     type: String,
-    unique: true,
     required: false
   },
   isAdmin: {

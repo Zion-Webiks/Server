@@ -14,6 +14,7 @@ export const register = async (req: Request<any, any, NewUser>, res: Response) =
 
 export const login = async (req: Request<any, any, LoginDto>, res: Response) => {
     try {
+      console.log(req.body);
       const loginData = await userLogin(req.body);
       res.status(201).json(loginData);
     } catch (err) {

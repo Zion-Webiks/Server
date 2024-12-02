@@ -22,26 +22,29 @@ export const registerService = async (user: NewUser) => {
 export const userLogin = async (user: LoginDto) => {
     try {
     const userFromDatabase = await User.findOne({
-        username: user.userName,
+      email: user.email,
     }).lean();
     if (!userFromDatabase) throw new Error("user not found");
-    const match = await compare(user.paswword, userFromDatabase.password);
+    const match = await compare(user.password, userFromDatabase.password);
     if (!match) throw new Error("wrong password");
     // gen token
     const token = await jwt.sign(
         {
         user_id: userFromDatabase._id,
         isAdmin: userFromDatabase.isAdmin,
-        username: userFromDatabase.userName,
+        username: userFromDatabase.email,
         },
         process.env.JWT_SECRET!,
         {
         expiresIn: "10m",
         }
     );
+    console.log({ ...userFromDatabase, token, password: "*******" });
     return { ...userFromDatabase, token, password: "*******" };
     } catch (err) {
-    throw err;
+      console.log(err);
+
+      throw err;
     }
 }
 
