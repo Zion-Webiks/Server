@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { NewUser } from "../types/dto/userDto";
-import { profileService, updateProfileService } from "../services/userService";
+import { profileService, updateProfileService } from "../services/UerService";
 
 
   export const profile = async (req: Request<any>, res: Response) => {

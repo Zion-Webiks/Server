@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { TransferController } from '../controllers/TransferController';
-import { verifyUser } from '../middleware/verifyUser';
+import  verifyUser  from '../middleware/verifyUser';
 
 const router = Router();
 

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { LoginDto } from "../types/dto/authDto";
-import { registerService, userLogin } from "../services/authService";
+import { registerService, userLogin } from "../services/AuthService";
 import { NewUser } from "../types/dto/userDto";
 
 export const register = async (req: Request<any, any, NewUser>, res: Response) => {
