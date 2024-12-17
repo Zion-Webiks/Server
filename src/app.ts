@@ -16,6 +16,7 @@ app.use(cros())
 
 app.use("/api/users",verifyUser, userRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/transfers", authRouter);
 
 app.listen(PORT, () =>  {
   console.log(`Server started, Visit "http://localhost:${PORT}"`);

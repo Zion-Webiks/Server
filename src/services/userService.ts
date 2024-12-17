@@ -1,6 +1,6 @@
 import { hash } from "bcrypt";
 import { NewUser } from "../types/dto/userDto";
-import User from "../models/userModel"
+import User from "../models/User"
 
 
   export const profileService = async (user: NewUser) => {

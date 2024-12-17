@@ -1,5 +1,5 @@
 import { LoginDto } from "../types/dto/authDto";
-import User from "../models/userModel"
+import User from "../models/User"
 import jwt from "jsonwebtoken";
 import { compare, hash } from "bcrypt";
 import { NewUser } from "../types/dto/userDto";
