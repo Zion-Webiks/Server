@@ -2,15 +2,16 @@ import { Request, Response } from 'express';
 import { LoanService } from '../services/LoanService';
 import { UserRepository } from '../repositories/UserRepository';
 import { LoanRepository } from '../repositories/LoanRepository';
+import AuthenticatedRequest from '../types/requests/authenticatedRequest';
 
 const userRepo = new UserRepository();
 const loanRepo = new LoanRepository();
 const loanService = new LoanService(userRepo, loanRepo);
 
 export class LoanController {
-  static async getAll(req: Request, res: Response) {
+  static async getAll(req: AuthenticatedRequest, res: Response) {
     try {
-      const userId = req.userId!;
+      const userId = req.user!.userId;
       const loans = await loanService.getUserLoans(userId);
       res.json(loans);
     } catch (error: any) {
@@ -18,9 +19,9 @@ export class LoanController {
     }
   }
 
-  static async apply(req: Request, res: Response) {
+  static async apply(req: AuthenticatedRequest, res: Response) {
     try {
-      const userId = req.userId!;
+      const userId = req.user!.userId;
       const { principal, interestRate } = req.body;
       const loan = await loanService.applyForLoan(userId, principal, interestRate);
       res.status(201).json(loan);
@@ -29,9 +30,9 @@ export class LoanController {
     }
   }
 
-  static async repay(req: Request, res: Response) {
+  static async repay(req: AuthenticatedRequest, res: Response) {
     try {
-      const userId = req.userId!;
+      const userId = req.user!.userId;
       const { id } = req.params;
       const loan = await loanService.repayLoan(userId, id);
       res.json({ message: 'Loan repaid successfully', loan });

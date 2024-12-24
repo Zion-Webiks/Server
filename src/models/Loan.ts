@@ -1,7 +1,7 @@
 import { Schema, model, Document } from 'mongoose';
 
 export interface LoanDocument extends Document {
-  userId: string;
+  userId?: string;
   principal: number;
   interestRate: number;
   status: 'PENDING' | 'APPROVED' | 'REPAID';

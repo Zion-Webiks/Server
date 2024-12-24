@@ -1,8 +1,8 @@
 import { Schema, model, Document } from 'mongoose';
 
 export interface TransferDocument extends Document {
-  fromUserId: string;
-  toUserId: string;
+  fromUserId?: string;
+  toUserId?: string;
   amount: number;
   createdAt: Date;
   updatedAt: Date;

@@ -3,6 +3,7 @@ import { TransferService } from '../services/TransferService';
 import { UserRepository } from '../repositories/UserRepository';
 import { TransferRepository } from '../repositories/TransferRepository';
 import { TransactionRepository } from '../repositories/TransactionRepository';
+import AuthenticatedRequest from '../types/requests/authenticatedRequest';
 
 const userRepo = new UserRepository();
 const transferRepo = new TransferRepository();
@@ -10,9 +11,9 @@ const transactionRepo = new TransactionRepository();
 const transferService = new TransferService(userRepo, transferRepo, transactionRepo);
 
 export class TransferController {
-  static async getAll(req: Request, res: Response) {
+  static async getAll(req: AuthenticatedRequest, res: Response) {
     try {
-      const userId = req.userId!;
+      const userId = req.user?.userId!;
       const transfers = await transferService.getUserTransfers(userId);
       res.json(transfers);
     } catch (error: any) {
@@ -20,9 +21,9 @@ export class TransferController {
     }
   }
 
-  static async create(req: Request, res: Response) {
+  static async create(req: AuthenticatedRequest, res: Response) {
     try {
-      const fromUserId = req.userId!;
+      const fromUserId = req.user?.userId!;
       const { toUserId, amount } = req.body;
       const transfer = await transferService.createTransfer(fromUserId, toUserId, amount);
       res.status(201).json(transfer);

@@ -1,8 +1,7 @@
-import { LoginDto } from "../types/dto/authDto";
-import User from "../models/User"
+import {User} from "../models/User"
 import jwt from "jsonwebtoken";
 import { compare, hash } from "bcrypt";
-import { NewUser } from "../types/dto/userDto";
+import { LoginDto, NewUser } from "../types/dto/userDto";
 
 
 export const registerService = async (user: NewUser) => {

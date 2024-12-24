@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { TransactionController } from '../controllers/TransactionController';
-import { verifyUser } from '../middleware/verifyUser';
-import { verifyAdmin } from '../middleware/verifyAdmin';
+import  verifyUser  from '../middleware/verifyUser';
+import  verifyAdmin  from '../middleware/verifyAdmin';
 
 const router = Router();
 

@@ -1,7 +1,7 @@
 import { Schema, model, Document } from 'mongoose';
 
 export interface TransactionDocument extends Document {
-  userId: string;
+  userId?: string;
   type: 'DEPOSIT' | 'WITHDRAW' | 'TRANSFER';
   amount: number;
   createdAt: Date;

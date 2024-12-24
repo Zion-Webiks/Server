@@ -1,11 +1,11 @@
-import { Router } from "express"
-import verifyUser from "../middleware/verifyUser"
-import { profile, updateProfile } from "../controllers/UserController"
+import { Router } from "express";
+import { UserController } from "../controllers/UserController";
+import  verifyUser  from "../middleware/verifyUser";
 
-const router = Router()
+const router = Router();
 
-router.get("/profile", profile)
-
-router.put("/updateProfile", updateProfile)
+router.post("/register", UserController.register);
+router.post("/login", UserController.login);
+//router.get("/profile", verifyUser, UserController.getProfile);
 
 export default router;

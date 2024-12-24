@@ -1,25 +1,14 @@
 import { NextFunction, Request, Response } from "express";
-import jwt, { JsonWebTokenError } from "jsonwebtoken";
+import AuthenticatedRequest from "../types/requests/authenticatedRequest";
 
-export default (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const token = req.headers["authorization"];
-    if (!token) {
-      res.status(401).json({
-        err: "Token must be provieded",
-      });
-      return;
-    }
-    console.log(token)
-    const payload = jwt.verify(token[0], process.env.JWT_SECRET!);
-    (req as any).user = payload;
-    if (!(payload as any).isAdmin) {
-      res.status(403).json({
-        err: "Sorry, your not yet there, a few more years maybe",
-      });
-    }
-    next();
-  } catch (err) {
-    res.status(401).json(err as JsonWebTokenError);
+export default (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+  if (!req.user) {
+     res.status(401).json({ err: "User not found in request. Make sure verifyUser is used first." });
   }
+
+  if (!req.user!.isAdmin) {
+     res.status(403).json({ err: "Admin access required" });
+  }
+
+  next();
 };

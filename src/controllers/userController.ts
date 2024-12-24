@@ -1,22 +1,44 @@
 import { Request, Response } from "express";
-import { NewUser } from "../types/dto/userDto";
-import { profileService, updateProfileService } from "../services/UerService";
+import { UserService } from "../services/UserService";
+import { UserRepository } from "../repositories/UserRepository";
+import { LoginDto, NewUser } from "../types/dto/userDto";
+import AuthenticatedRequest from "../types/requests/authenticatedRequest";
 
+// Instantiate the repository and service
+const userRepo = new UserRepository();
+const userService = new UserService(userRepo);
 
-  export const profile = async (req: Request<any>, res: Response) => {
+export class UserController {
+  static async register(req: Request<any, any, NewUser>, res: Response) {
     try {
-      const userProfile = await profileService(req.body);
-      res.status(201).json(userProfile);
-    } catch (err) {
-      res.status(400).json((err as Error).message);
+      const newUser: NewUser = req.body;
+      const user = await userService.register(newUser);
+      res.status(201).json(user);
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
     }
-  };
+  }
 
-  export const updateProfile = async (req: Request<any>, res: Response) => {
+  static async login(req: Request<any, any, LoginDto>, res: Response) {
     try {
-      const userProfile = await updateProfileService(req.body);
-      res.status(201).json(userProfile);
-    } catch (err) {
-      res.status(400).json((err as Error).message);
+      const { email, password } = req.body;
+      const { token, user } = await userService.login(email, password);
+      res.json({ token, user });
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
     }
-  };
+  }
+
+  // Protected endpoint (requires verifyUser middleware)
+  static async getProfile(req: AuthenticatedRequest, res: Response) {
+    try {
+      const userId = req.user?.userId!; // Assuming verifyUser middleware sets req.userId
+      if (!userId) return res.status(401).json({ error: "Unauthorized" });
+
+      const user = await userService.getProfile(userId);
+      res.json(user);
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
+    }
+  }
+}
